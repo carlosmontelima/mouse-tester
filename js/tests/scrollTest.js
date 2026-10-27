@@ -1,9 +1,7 @@
 import { TestTimer } from '../timer.js';
 import { buildScrollReport, renderDiagnosticReport } from '../diagnostics.js';
 import { ICONS, showNotification, setStartStopButtonContent } from '../notifications.js';
-
-const REVERSE_BOUNCE_STREAK_WINDOW_MS = 260;
-const SINGLE_DETENT_BOUNCE_MS = 95;
+import { t, onLanguageChange } from '../i18n.js';
 
 export function createScrollTest() {
   const zoneEl = document.getElementById('scroll-test-zone');
@@ -30,8 +28,10 @@ export function createScrollTest() {
     upSteps: 0,
     downSteps: 0,
     reverseAnomalies: 0,
+    anomaliesBeforeOppositeStreak: 0,
     erraticSpikes: 0,
-    streakDir: null,
+    lockedDir: null, // 'UP' | 'DOWN' — locked on first scroll tick of the test
+    consecutiveOppositeTicks: 0,
     streakCount: 0,
     lastTickTime: 0,
     lastDeltaAbs: 0,
@@ -39,6 +39,11 @@ export function createScrollTest() {
     durationSec: 30,
     finished: false
   };
+
+  function dirText(dirCode) {
+    if (!dirCode) return t('notLockedYet');
+    return dirCode === 'UP' ? t('dirUp') : t('dirDown');
+  }
 
   const timer = new TestTimer({
     durationSec: 30,
@@ -59,12 +64,15 @@ export function createScrollTest() {
       showNotification({
         title:
           state.reverseAnomalies > 0
-            ? 'Scroll Test Complete — Reverse Scroll Detected'
-            : 'Scroll Test Complete — Encoder Healthy',
+            ? t('notifScrollDoneFaultTitle')
+            : t('notifScrollDoneOkTitle'),
         message:
           state.reverseAnomalies > 0
-            ? `Detected ${state.reverseAnomalies} reverse scroll anomaly event(s). View the hypothesis and fix guide below.`
-            : `Analyzed ${state.upSteps + state.downSteps} scroll steps with zero reverse scroll jumps.`,
+            ? t('notifScrollDoneFaultMsg', { count: state.reverseAnomalies })
+            : t('notifScrollDoneOkMsg', {
+                steps: state.upSteps + state.downSteps,
+                dir: dirText(state.lockedDir || 'DOWN')
+              }),
         icon: state.reverseAnomalies > 0 ? 'alert' : 'check'
       });
       const report = buildScrollReport(state);
@@ -93,7 +101,6 @@ export function createScrollTest() {
 
     ctx.clearRect(0, 0, w, h);
 
-    // Subtle upper (UP) and lower (DOWN) guide lines + center zero baseline
     ctx.strokeStyle = 'rgba(168, 85, 247, 0.12)';
     ctx.lineWidth = 1;
     [0.22, 0.78].forEach((ratio) => {
@@ -110,11 +117,10 @@ export function createScrollTest() {
     ctx.lineTo(w, midY);
     ctx.stroke();
 
-    // Labels for UP / DOWN zones
     ctx.fillStyle = 'rgba(192, 132, 252, 0.55)';
     ctx.font = '600 10px Inter, sans-serif';
-    ctx.fillText('UP STEPS', 10, 16);
-    ctx.fillText('DOWN STEPS', 10, h - 8);
+    ctx.fillText(t('canvasUpSteps'), 10, 16);
+    ctx.fillText(t('canvasDownSteps'), 10, h - 8);
 
     const hist = state.stepHistory;
     if (hist.length === 0) return;
@@ -125,7 +131,6 @@ export function createScrollTest() {
 
     ctx.save();
 
-    // Connect step trajectory line
     ctx.beginPath();
     slice.forEach((step, idx) => {
       const x = idx * slotW + slotW * 0.5;
@@ -139,24 +144,25 @@ export function createScrollTest() {
     ctx.lineWidth = 1.8;
     ctx.stroke();
 
-    // Draw individual step bars and nodes
     slice.forEach((step, idx) => {
       const x = idx * slotW + slotW * 0.5;
       const normMag = Math.min(1, Math.max(0.28, step.deltaAbs / 140));
       const offset = normMag * (midY - 18);
       const y = step.dir === 'UP' ? midY - offset : midY + offset;
 
-      // Step impulse bar from center line
       ctx.beginPath();
       ctx.moveTo(x, midY);
       ctx.lineTo(x, y);
-      ctx.strokeStyle = step.isReverseFault ? '#e879f9' : '#a855f7';
+      ctx.strokeStyle = step.isReverseFault
+        ? '#e879f9'
+        : step.isIgnoredOpposite
+        ? 'rgba(168, 85, 247, 0.35)'
+        : '#a855f7';
       ctx.lineWidth = step.isReverseFault ? 3.2 : 2.2;
       ctx.shadowColor = step.isReverseFault ? '#e879f9' : '#a855f7';
       ctx.shadowBlur = step.isReverseFault ? 12 : 6;
       ctx.stroke();
 
-      // Step tip node
       ctx.beginPath();
       ctx.arc(x, y, step.isReverseFault ? 4.5 : 3, 0, Math.PI * 2);
       ctx.fillStyle = step.isReverseFault ? '#ffffff' : '#d8b4fe';
@@ -178,7 +184,7 @@ export function createScrollTest() {
     if (upCountEl) upCountEl.textContent = String(state.upSteps);
     if (downCountEl) downCountEl.textContent = String(state.downSteps);
     if (streakEl) {
-      streakEl.textContent = state.streakDir ? `${state.streakDir} x${state.streakCount}` : 'Idle';
+      streakEl.textContent = state.lockedDir ? dirText(state.lockedDir) : t('notLockedYet');
     }
     if (reverseCountEl) reverseCountEl.textContent = String(state.reverseAnomalies);
     if (reverseCardEl) {
@@ -193,8 +199,10 @@ export function createScrollTest() {
       upSteps: 0,
       downSteps: 0,
       reverseAnomalies: 0,
+      anomaliesBeforeOppositeStreak: 0,
       erraticSpikes: 0,
-      streakDir: null,
+      lockedDir: null,
+      consecutiveOppositeTicks: 0,
       streakCount: 0,
       lastTickTime: 0,
       lastDeltaAbs: 0,
@@ -204,17 +212,32 @@ export function createScrollTest() {
     };
     updateUI();
     if (liveDirectionPillEl) {
-      liveDirectionPillEl.innerHTML = '<span>Click "Start Test" to Begin</span>';
+      liveDirectionPillEl.innerHTML = `<span>${t('clickStartToBegin')}</span>`;
     }
     if (logListEl) {
-      logListEl.innerHTML =
-        '<li class="anomaly-log-item">Click "Start Test" above, then roll the scroll wheel inside the target box.</li>';
+      logListEl.innerHTML = `<li class="anomaly-log-item">${t('scrollLogReady')}</li>`;
     }
     if (reportContainerEl) {
       reportContainerEl.classList.remove('visible');
       reportContainerEl.innerHTML = '';
     }
   }
+
+  onLanguageChange(() => {
+    setStartStopButtonContent(startBtn, timer.isRunning);
+    updateUI();
+    if (!timer.isRunning && state.upSteps + state.downSteps === 0) {
+      if (liveDirectionPillEl) {
+        liveDirectionPillEl.innerHTML = `<span>${t('clickStartToBegin')}</span>`;
+      }
+      if (logListEl) {
+        logListEl.innerHTML = `<li class="anomaly-log-item">${t('scrollLogReady')}</li>`;
+      }
+    }
+    if (state.finished && reportContainerEl && reportContainerEl.classList.contains('visible')) {
+      renderDiagnosticReport(reportContainerEl, buildScrollReport(state));
+    }
+  });
 
   durationPills.forEach((pill) => {
     pill.addEventListener('click', () => {
@@ -231,14 +254,14 @@ export function createScrollTest() {
     startBtn.addEventListener('click', () => {
       if (timer.isRunning) {
         timer.stop(true);
-        appendLog('Scroll test stopped manually.', 'normal');
+        appendLog(t('scrollLogStopped'), 'normal');
       } else {
         resetAll();
         timer.start();
         if (liveDirectionPillEl) {
-          liveDirectionPillEl.innerHTML = '<span>Test Running — Scroll Up or Down Now</span>';
+          liveDirectionPillEl.innerHTML = `<span>${t('scrollWaitingFirstDir')}</span>`;
         }
-        appendLog('Scroll test started — roll your wheel continuously Down, then Up.', 'normal');
+        appendLog(t('scrollLogStarted'), 'normal');
       }
     });
   }
@@ -254,11 +277,9 @@ export function createScrollTest() {
     zoneEl.addEventListener(
       'wheel',
       (e) => {
-        // Lock page scroll while hovering inside scroll arena
         e.preventDefault();
         e.stopPropagation();
 
-        // Strictly require Start Test button to be clicked first
         if (!timer.isRunning) return;
         if (e.deltaY === 0) return;
 
@@ -267,47 +288,48 @@ export function createScrollTest() {
         const deltaAbs = Math.abs(e.deltaY);
         const intervalMs = state.lastTickTime > 0 ? now - state.lastTickTime : 9999;
 
-        if (dir === 'DOWN') {
-          state.downSteps += 1;
-        } else {
-          state.upSteps += 1;
+        // First scroll movement of the session locks the target direction!
+        if (!state.lockedDir) {
+          state.lockedDir = dir;
+          state.streakCount = 1;
+          state.consecutiveOppositeTicks = 0;
+          if (dir === 'DOWN') state.downSteps += 1;
+          else state.upSteps += 1;
+
+          state.stepHistory.push({
+            dir,
+            deltaAbs,
+            isReverseFault: false,
+            isIgnoredOpposite: false
+          });
+
+          appendLog(t('scrollLogLocked', { dir: dirText(dir) }), 'normal');
+
+          if (liveDirectionPillEl) {
+            const dirIcon = dir === 'DOWN' ? ICONS.arrowDown : ICONS.arrowUp;
+            liveDirectionPillEl.innerHTML = `${dirIcon}<span>${t('scrollLockedBadge', {
+              locked: dirText(state.lockedDir),
+              dir: dirText(dir),
+              streak: state.streakCount
+            })}</span>`;
+          }
+
+          state.lastTickTime = now;
+          state.lastDeltaAbs = deltaAbs;
+          updateUI();
+          return;
         }
 
         let isReverseFault = false;
+        let isIgnoredOpposite = false;
 
-        // Detect Reverse Scroll Anomaly:
-        if (
-          state.streakDir &&
-          state.streakDir !== dir &&
-          ((state.streakCount >= 2 && intervalMs < REVERSE_BOUNCE_STREAK_WINDOW_MS) ||
-            intervalMs < SINGLE_DETENT_BOUNCE_MS)
-        ) {
-          isReverseFault = true;
-          state.reverseAnomalies += 1;
+        if (dir === state.lockedDir) {
+          // User is scrolling in the locked session direction
+          state.consecutiveOppositeTicks = 0;
+          state.streakCount += 1;
+          if (dir === 'DOWN') state.downSteps += 1;
+          else state.upSteps += 1;
 
-          const intendedDir = state.streakDir;
-          const reverseDir = dir;
-          const alertMsg = `You were scrolling ${intendedDir}, but the scroll wheel jumped ${reverseDir} (${intervalMs.toFixed(0)}ms bounce).`;
-
-          showNotification({
-            title: 'Reverse Scroll Detected',
-            message: alertMsg,
-            icon: 'alert'
-          });
-          appendLog(`REVERSE SCROLL FAULT: ${alertMsg}`, 'fault');
-
-          if (zoneEl) {
-            zoneEl.classList.add('anomaly-flash');
-            setTimeout(() => zoneEl.classList.remove('anomaly-flash'), 550);
-          }
-          if (svgWheelEl) {
-            svgWheelEl.classList.add('fault-part');
-            setTimeout(() => svgWheelEl.classList.remove('fault-part'), 650);
-          }
-
-          state.streakDir = dir;
-          state.streakCount = 1;
-        } else {
           if (
             state.lastDeltaAbs > 0 &&
             intervalMs < 120 &&
@@ -315,42 +337,127 @@ export function createScrollTest() {
             deltaAbs > 240
           ) {
             state.erraticSpikes += 1;
-            const warnMsg = `Irregular scroll step magnitude (${Math.round(deltaAbs)}px vs ${Math.round(state.lastDeltaAbs)}px) while scrolling ${dir}.`;
+            const warnMsg = t('notifIrregularStepMsg', {
+              curr: Math.round(deltaAbs),
+              prev: Math.round(state.lastDeltaAbs),
+              dir: dirText(dir)
+            });
             showNotification({
-              title: 'Irregular Scroll Step',
+              title: t('notifIrregularStepTitle'),
               message: warnMsg,
               icon: 'alert'
             });
             appendLog(warnMsg, 'warn');
           }
 
-          if (state.streakDir === dir && intervalMs < 650) {
-            state.streakCount += 1;
+          if (liveDirectionPillEl) {
+            const dirIcon = dir === 'DOWN' ? ICONS.arrowDown : ICONS.arrowUp;
+            liveDirectionPillEl.innerHTML = `${dirIcon}<span>${t('scrollLockedBadge', {
+              locked: dirText(state.lockedDir),
+              dir: dirText(dir),
+              streak: state.streakCount
+            })}</span>`;
+          }
+        } else {
+          // Opposite direction tick relative to state.lockedDir!
+          state.consecutiveOppositeTicks += 1;
+
+          if (state.consecutiveOppositeTicks === 1) {
+            state.anomaliesBeforeOppositeStreak = state.reverseAnomalies;
+          }
+
+          if (state.consecutiveOppositeTicks <= 2) {
+            // 1–2 isolated opposite ticks during locked-direction test -> Reverse Scroll Bounce Fault
+            isReverseFault = true;
+            state.reverseAnomalies += 1;
+            if (dir === 'DOWN') state.downSteps += 1;
+            else state.upSteps += 1;
+
+            const alertMsg = t('notifReverseMsg', {
+              locked: dirText(state.lockedDir),
+              dir: dirText(dir),
+              ms: intervalMs < 2000 ? intervalMs.toFixed(0) : '0'
+            });
+
+            showNotification({
+              title: t('notifReverseTitle'),
+              message: alertMsg,
+              icon: 'alert'
+            });
+            appendLog(alertMsg, 'fault');
+
+            if (zoneEl) {
+              zoneEl.classList.add('anomaly-flash');
+              setTimeout(() => zoneEl.classList.remove('anomaly-flash'), 550);
+            }
+            if (svgWheelEl) {
+              svgWheelEl.classList.add('fault-part');
+              setTimeout(() => svgWheelEl.classList.remove('fault-part'), 650);
+            }
+
+            if (liveDirectionPillEl) {
+              liveDirectionPillEl.innerHTML = `${ICONS.alert}<span>${t('scrollReverseJumpBadge', {
+                dir: dirText(dir),
+                locked: dirText(state.lockedDir)
+              })}</span>`;
+            }
+          } else if (state.consecutiveOppositeTicks === 3) {
+            // 3 consecutive opposite ticks means the user intentionally started scrolling the other way!
+            // Roll back the tentative reverse fault from ticks #1 and #2 so there is NO false positive:
+            state.reverseAnomalies = state.anomaliesBeforeOppositeStreak;
+            isIgnoredOpposite = true;
+
+            // Convert the previous 2 stepHistory items from fault to ignored intentional opposite
+            for (
+              let i = state.stepHistory.length - 1;
+              i >= 0 && i >= state.stepHistory.length - 2;
+              i--
+            ) {
+              if (state.stepHistory[i].dir === dir) {
+                state.stepHistory[i].isReverseFault = false;
+                state.stepHistory[i].isIgnoredOpposite = true;
+              }
+            }
+
+            const intentionalMsg = t('notifIntentionalOppositeMsg', {
+              locked: dirText(state.lockedDir),
+              dir: dirText(dir)
+            });
+
+            showNotification({
+              title: t('notifIntentionalOppositeTitle'),
+              message: intentionalMsg,
+              icon: 'info',
+              durationMs: 6500
+            });
+            appendLog(intentionalMsg, 'warn');
+
+            if (liveDirectionPillEl) {
+              liveDirectionPillEl.innerHTML = `${ICONS.info}<span>${t('scrollOppositeWarnBadge', {
+                dir: dirText(dir),
+                locked: dirText(state.lockedDir)
+              })}</span>`;
+            }
           } else {
-            state.streakDir = dir;
-            state.streakCount = 1;
+            // 4+ consecutive opposite ticks: keep ignoring without false positives
+            isIgnoredOpposite = true;
+            if (liveDirectionPillEl) {
+              liveDirectionPillEl.innerHTML = `${ICONS.info}<span>${t('scrollOppositeWarnBadge', {
+                dir: dirText(dir),
+                locked: dirText(state.lockedDir)
+              })}</span>`;
+            }
           }
         }
 
         state.stepHistory.push({
           dir,
           deltaAbs,
-          isReverseFault
+          isReverseFault,
+          isIgnoredOpposite
         });
         if (state.stepHistory.length > 80) {
           state.stepHistory.shift();
-        }
-
-        if (liveDirectionPillEl) {
-          const dirIcon = isReverseFault
-            ? ICONS.alert
-            : dir === 'DOWN'
-            ? ICONS.arrowDown
-            : ICONS.arrowUp;
-          const dirText = isReverseFault
-            ? `Reverse Jump (${dir}) Detected`
-            : `Scrolling ${dir} • Step ${state.streakCount} (${intervalMs < 2000 ? `${Math.round(intervalMs)}ms` : 'start'})`;
-          liveDirectionPillEl.innerHTML = `${dirIcon}<span>${dirText}</span>`;
         }
 
         if (svgWheelEl && !isReverseFault) {

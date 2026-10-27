@@ -1,8 +1,9 @@
 /**
  * Single-Instance Right-Side Notification Manager & Custom SVG Icon Library
  * Slides in smoothly from above on the right side outside the main app box.
- * Never vibrates, never stacks multiple alerts, and stays strictly within the purple glass theme.
  */
+
+import { t } from './i18n.js';
 
 export const ICONS = {
   play: `<svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="6 4 20 12 6 20 6 4"></polygon></svg>`,
@@ -12,12 +13,13 @@ export const ICONS = {
   alert: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>`,
   check: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>`,
   wrench: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>`,
-  pulse: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>`
+  pulse: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>`,
+  info: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>`
 };
 
 let activeTimeout = null;
 
-export function showNotification({ title, message, icon = 'alert', durationMs = 5200 }) {
+export function showNotification({ title, message, icon = 'alert', durationMs = 5600 }) {
   const host = document.getElementById('notification-host');
   if (!host) return;
 
@@ -26,7 +28,6 @@ export function showNotification({ title, message, icon = 'alert', durationMs = 
     activeTimeout = null;
   }
 
-  // Always replace any existing notification so only ONE shows at a time
   host.innerHTML = '';
 
   const toast = document.createElement('div');
@@ -86,6 +87,6 @@ export function setStartStopButtonContent(btnEl, isRunning) {
   if (!btnEl) return;
   btnEl.classList.toggle('is-running', isRunning);
   btnEl.innerHTML = isRunning
-    ? `${ICONS.stop}<span>Stop Test</span>`
-    : `${ICONS.play}<span>Start Test</span>`;
+    ? `${ICONS.stop}<span>${t('stopTest')}</span>`
+    : `${ICONS.play}<span>${t('startTest')}</span>`;
 }

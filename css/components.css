@@ -249,6 +249,50 @@
   transition: width 0.12s linear;
 }
 
+/* Single-Direction Scroll Instruction Notice */
+.scroll-rule-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 13px 16px;
+  border-radius: var(--radius-md);
+  background: rgba(168, 85, 247, 0.09);
+  border: 1px solid var(--glass-border-strong);
+  margin-bottom: 18px;
+  box-shadow: var(--bloom-sm);
+}
+
+.scroll-rule-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: rgba(168, 85, 247, 0.16);
+  border: 1px solid var(--glass-border-strong);
+  color: var(--purple-300);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.scroll-rule-icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+.scroll-rule-text {
+  font-size: 0.84rem;
+  color: var(--text-secondary);
+  line-height: 1.48;
+}
+
+.scroll-rule-text strong {
+  color: var(--purple-300);
+  font-weight: 700;
+  margin-right: 4px;
+}
+
 /* =========================================================
    RIGHT-SIDE TOP NOTIFICATION (ONE AT A TIME, CLEAN THEME)
    ========================================================= */

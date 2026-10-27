@@ -13,7 +13,7 @@
 </head>
 <body>
 
-  <!-- Top Header: Top-Left Animated Mouse Brand (Visible in App) + Top-Right Theme Button -->
+  <!-- Top Header: Top-Left Animated Mouse Brand (Visible in App) + Top-Right Language & Theme Buttons -->
   <header class="top-header">
     <a href="#welcome-screen" id="header-mouse-brand" class="header-mouse-brand" title="Return to Welcome Screen">
       <div class="header-mouse-stage">
@@ -33,6 +33,15 @@
     </a>
 
     <div class="nav-actions">
+      <button type="button" id="lang-toggle-btn" class="btn-glass" aria-label="Switch Language">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+        </svg>
+        <span id="lang-toggle-label">PT-BR</span>
+      </button>
+
       <button type="button" id="theme-toggle-btn" class="btn-glass" aria-label="Toggle Dark or Light Theme">
         <svg id="theme-toggle-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"></svg>
         <span id="theme-toggle-label">Light Mode</span>
@@ -71,12 +80,12 @@
         </svg>
       </div>
 
-      <p class="hero-subtitle">
+      <p class="hero-subtitle" data-i18n="heroSubtitle">
         Complete hardware diagnostics for mouse switches, side buttons, rotary scroll encoders, and high-frequency polling sensors — with real-time anomaly alerts and repair guides.
       </p>
 
       <button type="button" id="scroll-to-arena-btn" class="scroll-cta-btn">
-        <span>Scroll Down or Press Down Arrow to Begin</span>
+        <span data-i18n="scrollCta">Scroll Down or Press Down Arrow to Begin</span>
         <span class="scroll-arrow-pill">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <line x1="12" y1="5" x2="12" y2="19"></line>
@@ -96,10 +105,10 @@
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
           <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
         </svg>
-        <span>Isolated Diagnostic Suite</span>
+        <span data-i18n="arenaBadge">Isolated Diagnostic Suite</span>
       </div>
-      <h2 class="arena-title">Hardware Diagnostic Arena</h2>
-      <p class="arena-desc">
+      <h2 class="arena-title" data-i18n="arenaTitle">Hardware Diagnostic Arena</h2>
+      <p class="arena-desc" data-i18n="arenaDesc">
         Each diagnostic runs strictly isolated for accurate timing. Select a test tab, choose your duration (30s–120s), and click Start Test.
       </p>
     </div>
@@ -112,7 +121,7 @@
           <line x1="12" y1="2" x2="12" y2="10"></line>
           <line x1="5" y1="10" x2="19" y2="10"></line>
         </svg>
-        <span>1. Mouse Buttons &amp; Side Switches</span>
+        <span data-i18n="tabButtons">1. Mouse Buttons &amp; Side Switches</span>
       </button>
 
       <button type="button" class="tab-btn" role="tab" aria-selected="false" data-tab="scroll">
@@ -121,14 +130,14 @@
           <polyline points="7 16 12 21 17 16"></polyline>
           <line x1="12" y1="3" x2="12" y2="21"></line>
         </svg>
-        <span>2. Scroll Wheel &amp; Reverse Detector</span>
+        <span data-i18n="tabScroll">2. Scroll Wheel &amp; Reverse Detector</span>
       </button>
 
       <button type="button" class="tab-btn" role="tab" aria-selected="false" data-tab="polling">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
           <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
         </svg>
-        <span>3. Polling Rate (Hz) &amp; Sensor</span>
+        <span data-i18n="tabPolling">3. Polling Rate (Hz) &amp; Sensor</span>
       </button>
     </nav>
 
@@ -141,7 +150,7 @@
       <div id="panel-buttons" class="test-panel active" role="tabpanel">
         <div class="test-control-bar">
           <div class="duration-selector-group">
-            <span class="control-label">Test Duration:</span>
+            <span class="control-label" data-i18n="testDuration">Test Duration:</span>
             <button type="button" class="duration-pill active" data-test="buttons" data-seconds="30">30s</button>
             <button type="button" class="duration-pill" data-test="buttons" data-seconds="60">60s</button>
             <button type="button" class="duration-pill" data-test="buttons" data-seconds="90">90s</button>
@@ -155,14 +164,14 @@
             </div>
             <button type="button" id="buttons-start-btn" class="btn-start-test">
               <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="6 4 20 12 6 20 6 4"></polygon></svg>
-              <span>Start Test</span>
+              <span data-i18n="startTest">Start Test</span>
             </button>
             <button type="button" id="buttons-reset-btn" class="btn-glass">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="1 4 1 10 7 10"></polyline>
                 <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
               </svg>
-              <span>Reset</span>
+              <span data-i18n="resetBtn">Reset</span>
             </button>
           </div>
         </div>
@@ -179,15 +188,15 @@
                 <circle cx="12" cy="12" r="6"></circle>
                 <circle cx="12" cy="12" r="2"></circle>
               </svg>
-              <div class="zone-title">Click &amp; Hold Target Arena</div>
+              <div class="zone-title" data-i18n="buttonsZoneTitle">Click &amp; Hold Target Arena</div>
             </div>
-            <p class="zone-subtitle">
+            <p class="zone-subtitle" data-i18n="buttonsZoneSub">
               Click "Start Test" above first. Then click Left (M1), Right (M2), Middle Wheel (M3), Side Back (M4), and Side Forward (M5) here to test for switch bounce or hold dropouts.
             </p>
           </div>
 
           <div class="visualizer-card">
-            <span class="control-label">Live Switch Illumination</span>
+            <span class="control-label" data-i18n="liveSwitchIllum">Live Switch Illumination</span>
             <div class="visualizer-svg-wrap">
               <svg class="interactive-mouse-svg" viewBox="0 0 512 512">
                 <path class="mouse-zone-part" d="M 308.4 131.4 L 317.0 131.0 L 340.9 133.1 L 366.6 139.4 L 378.7 144.3 L 396.6 154.4 L 405.7 161.3 L 419.7 175.3 L 433.0 194.0 L 441.6 211.4 L 447.9 230.1 L 447.9 238.9 L 445.3 247.3 L 438.2 258.2 L 432.7 263.7 L 418.6 274.6 L 405.6 282.6 L 339.4 318.4 L 301.6 342.6 L 272.0 360.0 L 247.6 371.6 L 223.9 378.9 L 217.0 380.0 L 191.0 380.0 L 160.4 372.6 L 139.7 364.3 L 120.4 354.6 L 104.8 344.2 L 92.2 333.8 L 79.8 320.2 L 76.4 315.6 L 76.8 314.6 L 86.8 324.2 L 100.4 333.6 L 118.4 342.6 L 142.4 351.6 L 162.1 356.9 L 178.0 359.0 L 191.9 358.9 L 202.6 356.6 L 205.7 354.7 L 207.6 352.6 L 209.4 345.4 L 211.8 340.8 L 278.3 269.3 L 311.7 235.7 L 315.6 229.6 L 317.0 224.0 L 314.6 215.4 L 304.7 204.3 L 287.2 189.8 L 267.7 177.3 L 250.6 169.4 L 229.9 163.1 L 216.0 161.0 L 194.6 162.2 L 214.4 152.4 L 246.1 141.1 L 277.1 134.1 Z" />
@@ -198,45 +207,45 @@
                 <path id="svg-btn-part-3" class="mouse-zone-part" d="M 372.4 225.4 L 376.6 225.4 L 379.9 229.1 L 380.9 235.9 L 378.2 242.2 L 345.4 259.6 L 336.8 248.2 L 336.8 245.8 L 357.4 232.4 Z" />
               </svg>
             </div>
-            <span class="metric-sub">Interactive Switch Zone Map</span>
+            <span class="metric-sub" data-i18n="interactiveSwitchMap">Interactive Switch Zone Map</span>
           </div>
         </div>
 
         <div class="metrics-grid-5">
           <div id="btn-card-0" class="metric-box">
-            <div class="metric-label">Left (M1)</div>
+            <div class="metric-label" data-i18n="btnLeft">Left (M1)</div>
             <div id="btn-count-0" class="metric-value">0</div>
-            <div id="btn-sub-0" class="metric-sub">No delta yet</div>
+            <div id="btn-sub-0" class="metric-sub" data-i18n="noDeltaYet">No delta yet</div>
           </div>
           <div id="btn-card-2" class="metric-box">
-            <div class="metric-label">Right (M2)</div>
+            <div class="metric-label" data-i18n="btnRight">Right (M2)</div>
             <div id="btn-count-2" class="metric-value">0</div>
-            <div id="btn-sub-2" class="metric-sub">No delta yet</div>
+            <div id="btn-sub-2" class="metric-sub" data-i18n="noDeltaYet">No delta yet</div>
           </div>
           <div id="btn-card-1" class="metric-box">
-            <div class="metric-label">Middle (M3)</div>
+            <div class="metric-label" data-i18n="btnMiddle">Middle (M3)</div>
             <div id="btn-count-1" class="metric-value">0</div>
-            <div id="btn-sub-1" class="metric-sub">No delta yet</div>
+            <div id="btn-sub-1" class="metric-sub" data-i18n="noDeltaYet">No delta yet</div>
           </div>
           <div id="btn-card-3" class="metric-box">
-            <div class="metric-label">Side Back (M4)</div>
+            <div class="metric-label" data-i18n="btnBack">Side Back (M4)</div>
             <div id="btn-count-3" class="metric-value">0</div>
-            <div id="btn-sub-3" class="metric-sub">No delta yet</div>
+            <div id="btn-sub-3" class="metric-sub" data-i18n="noDeltaYet">No delta yet</div>
           </div>
           <div id="btn-card-4" class="metric-box">
-            <div class="metric-label">Side Fwd (M5)</div>
+            <div class="metric-label" data-i18n="btnFwd">Side Fwd (M5)</div>
             <div id="btn-count-4" class="metric-value">0</div>
-            <div id="btn-sub-4" class="metric-sub">No delta yet</div>
+            <div id="btn-sub-4" class="metric-sub" data-i18n="noDeltaYet">No delta yet</div>
           </div>
         </div>
 
         <div class="anomaly-log-box">
           <div class="anomaly-log-header">
-            <span>Live Switch Telemetry Stream</span>
-            <span>Threshold: &lt; 80ms Double-Click | &lt; 45ms Hold-Drop</span>
+            <span data-i18n="buttonsLogHeader">Live Switch Telemetry Stream</span>
+            <span data-i18n="buttonsLogThreshold">Threshold: &lt; 80ms Double-Click | &lt; 45ms Hold-Drop</span>
           </div>
           <ul id="buttons-log-list" class="anomaly-log-list">
-            <li class="anomaly-log-item">Click "Start Test" above, then click inside the target box to test all 5 buttons.</li>
+            <li class="anomaly-log-item" data-i18n="buttonsLogReady">Click "Start Test" above, then click inside the target box to test all 5 buttons.</li>
           </ul>
         </div>
 
@@ -249,7 +258,7 @@
       <div id="panel-scroll" class="test-panel" role="tabpanel">
         <div class="test-control-bar">
           <div class="duration-selector-group">
-            <span class="control-label">Test Duration:</span>
+            <span class="control-label" data-i18n="testDuration">Test Duration:</span>
             <button type="button" class="duration-pill active" data-test="scroll" data-seconds="30">30s</button>
             <button type="button" class="duration-pill" data-test="scroll" data-seconds="60">60s</button>
             <button type="button" class="duration-pill" data-test="scroll" data-seconds="90">90s</button>
@@ -263,20 +272,35 @@
             </div>
             <button type="button" id="scroll-start-btn" class="btn-start-test">
               <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="6 4 20 12 6 20 6 4"></polygon></svg>
-              <span>Start Test</span>
+              <span data-i18n="startTest">Start Test</span>
             </button>
             <button type="button" id="scroll-reset-btn" class="btn-glass">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="1 4 1 10 7 10"></polyline>
                 <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
               </svg>
-              <span>Reset</span>
+              <span data-i18n="resetBtn">Reset</span>
             </button>
           </div>
         </div>
 
         <div class="timer-progress-track">
           <div id="scroll-progress-fill" class="timer-progress-fill"></div>
+        </div>
+
+        <!-- Single-Direction Instruction & Warning Notice -->
+        <div class="scroll-rule-notice">
+          <div class="scroll-rule-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="16" x2="12" y2="12"></line>
+              <line x1="12" y1="8" x2="12.01" y2="8"></line>
+            </svg>
+          </div>
+          <p class="scroll-rule-text">
+            <strong data-i18n="scrollRuleTitle">Single-Direction Test Rule (Avoid False Positives):</strong>
+            <span data-i18n="scrollRuleText">Scroll in ONLY ONE direction per test. Your first scroll movement after clicking "Start Test" locks the target direction (Up or Down) for the entire session. To test the opposite direction, click Reset and run a new test.</span>
+          </p>
         </div>
 
         <div class="test-workspace-grid">
@@ -287,13 +311,13 @@
                 <polyline points="7 16 12 21 17 16"></polyline>
                 <line x1="12" y1="3" x2="12" y2="21"></line>
               </svg>
-              <div class="zone-title">Scroll Wheel Encoder Arena</div>
+              <div class="zone-title" data-i18n="scrollZoneTitle">Scroll Wheel Encoder Arena</div>
             </div>
-            <p class="zone-subtitle">
-              Click "Start Test" above, then place your cursor inside this box and scroll continuously Down and Up.
+            <p class="zone-subtitle" data-i18n="scrollZoneSub">
+              Click "Start Test" above, then roll your scroll wheel continuously in a single direction (only Down or only Up) inside this box.
             </p>
             <div id="scroll-live-direction" class="direction-indicator-pill">
-              <span>Click "Start Test" to Begin</span>
+              <span data-i18n="clickStartToBegin">Click "Start Test" to Begin</span>
             </div>
             <!-- Live Step Graphic Inside the Scrolling Area -->
             <div class="arena-canvas-wrap">
@@ -302,7 +326,7 @@
           </div>
 
           <div class="visualizer-card">
-            <span class="control-label">Rotary Encoder Visualizer</span>
+            <span class="control-label" data-i18n="rotaryVisualizer">Rotary Encoder Visualizer</span>
             <div class="visualizer-svg-wrap">
               <svg class="interactive-mouse-svg" viewBox="0 0 512 512">
                 <path class="mouse-zone-part" d="M 308.4 131.4 L 317.0 131.0 L 340.9 133.1 L 366.6 139.4 L 378.7 144.3 L 396.6 154.4 L 405.7 161.3 L 419.7 175.3 L 433.0 194.0 L 441.6 211.4 L 447.9 230.1 L 447.9 238.9 L 445.3 247.3 L 438.2 258.2 L 432.7 263.7 L 418.6 274.6 L 405.6 282.6 L 339.4 318.4 L 301.6 342.6 L 272.0 360.0 L 247.6 371.6 L 223.9 378.9 L 217.0 380.0 L 191.0 380.0 L 160.4 372.6 L 139.7 364.3 L 120.4 354.6 L 104.8 344.2 L 92.2 333.8 L 79.8 320.2 L 76.4 315.6 L 76.8 314.6 L 86.8 324.2 L 100.4 333.6 L 118.4 342.6 L 142.4 351.6 L 162.1 356.9 L 178.0 359.0 L 191.9 358.9 L 202.6 356.6 L 205.7 354.7 L 207.6 352.6 L 209.4 345.4 L 211.8 340.8 L 278.3 269.3 L 311.7 235.7 L 315.6 229.6 L 317.0 224.0 L 314.6 215.4 L 304.7 204.3 L 287.2 189.8 L 267.7 177.3 L 250.6 169.4 L 229.9 163.1 L 216.0 161.0 L 194.6 162.2 L 214.4 152.4 L 246.1 141.1 L 277.1 134.1 Z" />
@@ -311,52 +335,52 @@
                 <path id="svg-scroll-wheel-part" class="mouse-zone-part" d="M 178.4 218.4 L 189.6 219.4 L 197.6 223.4 L 198.8 225.9 L 182.7 229.7 L 175.8 233.8 L 168.3 240.3 L 162.4 248.4 L 157.7 257.7 L 153.0 274.0 L 152.5 277.5 L 149.0 279.0 L 141.1 277.9 L 137.4 275.6 L 138.1 262.1 L 142.7 247.7 L 149.4 236.4 L 154.8 229.8 L 168.7 220.7 Z" />
               </svg>
             </div>
-            <span class="metric-sub">Detects Reverse Scroll Bounce Live</span>
+            <span class="metric-sub" data-i18n="detectsReverseSub">Detects Reverse Scroll Bounce Live</span>
           </div>
         </div>
 
         <div class="metrics-grid-4">
           <div class="metric-box">
-            <div class="metric-label">Scroll Up Steps</div>
+            <div class="metric-label" data-i18n="scrollUpSteps">Scroll Up Steps</div>
             <div id="scroll-up-count" class="metric-value">0</div>
             <div class="metric-sub">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="12" y1="19" x2="12" y2="5"></line>
                 <polyline points="5 12 12 5 19 12"></polyline>
               </svg>
-              <span>Upward Ticks</span>
+              <span data-i18n="upwardTicks">Upward Ticks</span>
             </div>
           </div>
           <div class="metric-box">
-            <div class="metric-label">Scroll Down Steps</div>
+            <div class="metric-label" data-i18n="scrollDownSteps">Scroll Down Steps</div>
             <div id="scroll-down-count" class="metric-value">0</div>
             <div class="metric-sub">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="12" y1="5" x2="12" y2="19"></line>
                 <polyline points="19 12 12 19 5 12"></polyline>
               </svg>
-              <span>Downward Ticks</span>
+              <span data-i18n="downwardTicks">Downward Ticks</span>
             </div>
           </div>
           <div class="metric-box">
-            <div class="metric-label">Current Streak</div>
-            <div id="scroll-streak-val" class="metric-value">Idle</div>
-            <div class="metric-sub">Consecutive Direction</div>
+            <div class="metric-label" data-i18n="lockedDirLabel">Locked Direction</div>
+            <div id="scroll-streak-val" class="metric-value" data-i18n="notLockedYet">Unlocked</div>
+            <div class="metric-sub" data-i18n="singleDirModeSub">Single-Direction Lock</div>
           </div>
           <div id="scroll-reverse-card" class="metric-box">
-            <div class="metric-label">Reverse Scroll Jumps</div>
+            <div class="metric-label" data-i18n="reverseScrollJumps">Reverse Scroll Jumps</div>
             <div id="scroll-reverse-count" class="metric-value">0</div>
-            <div class="metric-sub">Opposite Bounce Faults</div>
+            <div class="metric-sub" data-i18n="oppositeBounceFaults">Opposite Bounce Faults</div>
           </div>
         </div>
 
         <div class="anomaly-log-box">
           <div class="anomaly-log-header">
-            <span>Live Rotary Encoder Telemetry</span>
-            <span>Detects Opposite-Direction Phase Bounce (&lt; 260ms)</span>
+            <span data-i18n="scrollLogHeader">Live Rotary Encoder Telemetry</span>
+            <span data-i18n="scrollLogThreshold">Single-Direction Lock | Detects Encoder Bounce</span>
           </div>
           <ul id="scroll-log-list" class="anomaly-log-list">
-            <li class="anomaly-log-item">Click "Start Test" above, then roll the scroll wheel inside the target box.</li>
+            <li class="anomaly-log-item" data-i18n="scrollLogReady">Click "Start Test" above, then roll the scroll wheel in ONE single direction inside the target box.</li>
           </ul>
         </div>
 
@@ -369,7 +393,7 @@
       <div id="panel-polling" class="test-panel" role="tabpanel">
         <div class="test-control-bar">
           <div class="duration-selector-group">
-            <span class="control-label">Test Duration:</span>
+            <span class="control-label" data-i18n="testDuration">Test Duration:</span>
             <button type="button" class="duration-pill active" data-test="polling" data-seconds="30">30s</button>
             <button type="button" class="duration-pill" data-test="polling" data-seconds="60">60s</button>
             <button type="button" class="duration-pill" data-test="polling" data-seconds="90">90s</button>
@@ -383,14 +407,14 @@
             </div>
             <button type="button" id="polling-start-btn" class="btn-start-test">
               <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="6 4 20 12 6 20 6 4"></polygon></svg>
-              <span>Start Test</span>
+              <span data-i18n="startTest">Start Test</span>
             </button>
             <button type="button" id="polling-reset-btn" class="btn-glass">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="1 4 1 10 7 10"></polyline>
                 <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
               </svg>
-              <span>Reset</span>
+              <span data-i18n="resetBtn">Reset</span>
             </button>
           </div>
         </div>
@@ -404,9 +428,9 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
               <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
             </svg>
-            <div class="zone-title">High-Frequency Sensor &amp; Polling Arena</div>
+            <div class="zone-title" data-i18n="pollingZoneTitle">High-Frequency Sensor &amp; Polling Arena</div>
           </div>
-          <p class="zone-subtitle">
+          <p class="zone-subtitle" data-i18n="pollingZoneSub">
             Click "Start Test" above, then move your cursor in rapid, continuous circular motions inside this arena.
           </p>
           <div class="arena-canvas-wrap">
@@ -416,34 +440,34 @@
 
         <div class="metrics-grid-4">
           <div class="metric-box">
-            <div class="metric-label">Live Polling Rate</div>
+            <div class="metric-label" data-i18n="livePollingRate">Live Polling Rate</div>
             <div id="polling-current-hz" class="metric-value">0 Hz</div>
-            <div class="metric-sub">Instantaneous Rate</div>
+            <div class="metric-sub" data-i18n="instantRate">Instantaneous Rate</div>
           </div>
           <div class="metric-box">
-            <div class="metric-label">Peak Polling Rate</div>
+            <div class="metric-label" data-i18n="peakPollingRate">Peak Polling Rate</div>
             <div id="polling-peak-hz" class="metric-value">0 Hz</div>
-            <div class="metric-sub">Maximum Recorded</div>
+            <div class="metric-sub" data-i18n="maxRecorded">Maximum Recorded</div>
           </div>
           <div class="metric-box">
-            <div class="metric-label">Average Rate</div>
+            <div class="metric-label" data-i18n="avgRate">Average Rate</div>
             <div id="polling-avg-hz" class="metric-value">0 Hz</div>
-            <div class="metric-sub">Active Motion Mean</div>
+            <div class="metric-sub" data-i18n="activeMotionMean">Active Motion Mean</div>
           </div>
           <div id="polling-stability-card" class="metric-box">
-            <div class="metric-label">Polling Stability</div>
+            <div class="metric-label" data-i18n="pollingStability">Polling Stability</div>
             <div id="polling-stability-pct" class="metric-value">100%</div>
-            <div class="metric-sub">Packet Consistency</div>
+            <div class="metric-sub" data-i18n="packetConsistency">Packet Consistency</div>
           </div>
         </div>
 
         <div class="anomaly-log-box">
           <div class="anomaly-log-header">
-            <span>Live Sensor &amp; USB Report Telemetry</span>
-            <span>Raw Pointer Stream (Uncoalesced Events)</span>
+            <span data-i18n="pollingLogHeader">Live Sensor &amp; USB Report Telemetry</span>
+            <span data-i18n="pollingLogSub">Raw Pointer Stream (Uncoalesced Events)</span>
           </div>
           <ul id="polling-log-list" class="anomaly-log-list">
-            <li class="anomaly-log-item">Click "Start Test" above, then move your mouse in continuous fast circles inside the arena.</li>
+            <li class="anomaly-log-item" data-i18n="pollingLogReady">Click "Start Test" above, then move your mouse in continuous fast circles inside the arena.</li>
           </ul>
         </div>
 
@@ -462,7 +486,7 @@
         <rect x="5" y="2" width="14" height="20" rx="7"></rect>
         <line x1="12" y1="2" x2="12" y2="10"></line>
       </svg>
-      <span>Designed &amp; Created by <strong>Carlos Monte Lima</strong> — All Rights Reserved.</span>
+      <span data-i18n-html="footerCreditHtml">Designed &amp; Created by <strong>Carlos Monte Lima</strong> — All Rights Reserved.</span>
     </div>
 
     <a

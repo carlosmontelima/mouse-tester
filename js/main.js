@@ -3,8 +3,10 @@ import { createButtonsTest } from './tests/buttonsTest.js';
 import { createScrollTest } from './tests/scrollTest.js';
 import { createPollingTest } from './tests/pollingTest.js';
 import { clearNotification } from './notifications.js';
+import { getLang, setLang, t, onLanguageChange, applyStaticTranslations } from './i18n.js';
 
 document.addEventListener('DOMContentLoaded', () => {
+  initLanguageController();
   initThemeController();
 
   const tests = {
@@ -15,9 +17,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const stopAllTests = () => {
     clearNotification();
-    Object.values(tests).forEach((t) => {
-      if (t && typeof t.stopAndReset === 'function') {
-        t.stopAndReset();
+    Object.values(tests).forEach((tInst) => {
+      if (tInst && typeof tInst.stopAndReset === 'function') {
+        tInst.stopAndReset();
       }
     });
   };
@@ -50,6 +52,18 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
+function initLanguageController() {
+  const langBtn = document.getElementById('lang-toggle-btn');
+  applyStaticTranslations();
+
+  if (langBtn) {
+    langBtn.addEventListener('click', () => {
+      const next = getLang() === 'en' ? 'pt' : 'en';
+      setLang(next);
+    });
+  }
+}
+
 function initThemeController() {
   const root = document.documentElement;
   const themeBtn = document.getElementById('theme-toggle-btn');
@@ -68,10 +82,17 @@ function initThemeController() {
     });
   }
 
+  onLanguageChange(() => {
+    const current = root.getAttribute('data-theme') || 'dark';
+    if (themeLabel) {
+      themeLabel.textContent = current === 'dark' ? t('themeLight') : t('themeDark');
+    }
+  });
+
   function applyTheme(theme) {
     root.setAttribute('data-theme', theme);
     if (themeLabel) {
-      themeLabel.textContent = theme === 'dark' ? 'Light Mode' : 'Dark Mode';
+      themeLabel.textContent = theme === 'dark' ? t('themeLight') : t('themeDark');
     }
     if (themeIcon) {
       themeIcon.innerHTML =

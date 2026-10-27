@@ -1,14 +1,7 @@
 import { TestTimer } from '../timer.js';
 import { buildButtonsReport, renderDiagnosticReport } from '../diagnostics.js';
 import { showNotification, setStartStopButtonContent } from '../notifications.js';
-
-const BUTTON_NAMES = {
-  0: 'Left Click (M1)',
-  1: 'Middle Click (M3)',
-  2: 'Right Click (M2)',
-  3: 'Side Back (M4)',
-  4: 'Side Forward (M5)'
-};
+import { t, onLanguageChange } from '../i18n.js';
 
 const DOUBLE_CLICK_THRESHOLD_MS = 80;
 const HOLD_DROP_THRESHOLD_MS = 45;
@@ -67,11 +60,11 @@ export function createButtonsTest() {
       sessionStats.finished = true;
       const totalFaults = sessionStats.doubleClicks + sessionStats.holdDrops;
       showNotification({
-        title: totalFaults > 0 ? 'Switch Test Complete — Anomalies Found' : 'Switch Test Complete — Healthy',
+        title: totalFaults > 0 ? t('notifButtonsDoneFaultTitle') : t('notifButtonsDoneOkTitle'),
         message:
           totalFaults > 0
-            ? `Detected ${totalFaults} switch anomaly event(s). Review the diagnostic hypothesis and fix guide below.`
-            : `Analyzed ${sessionStats.totalClicks} clicks with zero switch bounce or hold anomalies.`,
+            ? t('notifButtonsDoneFaultMsg', { count: totalFaults })
+            : t('notifButtonsDoneOkMsg', { clicks: sessionStats.totalClicks }),
         icon: totalFaults > 0 ? 'alert' : 'check'
       });
       const report = buildButtonsReport(sessionStats);
@@ -99,9 +92,10 @@ export function createButtonsTest() {
       const cardEl = document.getElementById(`btn-card-${b}`);
       if (countEl) countEl.textContent = String(st.clicks);
       if (subEl) {
-        const minStr = st.minDeltaMs !== null ? `${Math.round(st.minDeltaMs)}ms min` : 'No delta yet';
+        const minStr =
+          st.minDeltaMs !== null ? `${Math.round(st.minDeltaMs)}${t('minSuffix')}` : t('noDeltaYet');
         const faults = st.doubleClicks + st.holdDrops;
-        subEl.textContent = faults > 0 ? `${faults} fault(s) (${minStr})` : minStr;
+        subEl.textContent = faults > 0 ? `${faults} ${t('faultSuffix')} (${minStr})` : minStr;
       }
       if (cardEl) {
         cardEl.classList.toggle('fault-detected', st.doubleClicks + st.holdDrops > 0);
@@ -137,14 +131,24 @@ export function createButtonsTest() {
     };
     updateMetricCards();
     if (logListEl) {
-      logListEl.innerHTML =
-        '<li class="anomaly-log-item">Click "Start Test" above, then click inside the target box to test all 5 buttons.</li>';
+      logListEl.innerHTML = `<li class="anomaly-log-item">${t('buttonsLogReady')}</li>`;
     }
     if (reportContainerEl) {
       reportContainerEl.classList.remove('visible');
       reportContainerEl.innerHTML = '';
     }
   }
+
+  onLanguageChange(() => {
+    setStartStopButtonContent(startBtn, timer.isRunning);
+    updateMetricCards();
+    if (sessionStats.totalClicks === 0 && !timer.isRunning && logListEl) {
+      logListEl.innerHTML = `<li class="anomaly-log-item">${t('buttonsLogReady')}</li>`;
+    }
+    if (sessionStats.finished && reportContainerEl && reportContainerEl.classList.contains('visible')) {
+      renderDiagnosticReport(reportContainerEl, buildButtonsReport(sessionStats));
+    }
+  });
 
   durationPills.forEach((pill) => {
     pill.addEventListener('click', () => {
@@ -161,11 +165,11 @@ export function createButtonsTest() {
     startBtn.addEventListener('click', () => {
       if (timer.isRunning) {
         timer.stop(true);
-        appendLog('Test stopped manually.', 'normal');
+        appendLog(t('buttonsLogStopped'), 'normal');
       } else {
         resetAll();
         timer.start();
-        appendLog('Test started — click Left, Right, Middle, and Side buttons inside the arena.', 'normal');
+        appendLog(t('buttonsLogStarted'), 'normal');
       }
     });
   }
@@ -179,8 +183,6 @@ export function createButtonsTest() {
 
     zoneEl.addEventListener('mousedown', (e) => {
       e.preventDefault();
-
-      // Strictly require Start Test button to be clicked first
       if (!timer.isRunning) return;
 
       const btn = e.button;
@@ -188,7 +190,7 @@ export function createButtonsTest() {
 
       const now = performance.now();
       const st = buttonState[btn];
-      const btnLabel = BUTTON_NAMES[btn];
+      const btnLabel = t(`btnName${btn}`);
 
       st.clicks += 1;
       sessionStats.totalClicks += 1;
@@ -196,26 +198,24 @@ export function createButtonsTest() {
 
       let faultTriggered = false;
 
-      // 1. Check for Hold-Drop / Micro-Release Bounce
       if (st.lastUpTime > 0 && st.lastHoldDuration > 160) {
         const releaseGap = now - st.lastUpTime;
         if (releaseGap > 0 && releaseGap < HOLD_DROP_THRESHOLD_MS) {
           st.holdDrops += 1;
           sessionStats.holdDrops += 1;
-          sessionStats.faultyButtons.add(btnLabel);
+          sessionStats.faultyButtons.add(btn);
           faultTriggered = true;
 
-          const msg = `${btnLabel} dropped contact for ${releaseGap.toFixed(1)}ms while holding.`;
+          const msg = t('notifHoldDropMsg', { btn: btnLabel, ms: releaseGap.toFixed(1) });
           showNotification({
-            title: 'Hold-Drop Anomaly Detected',
+            title: t('notifHoldDropTitle'),
             message: msg,
             icon: 'alert'
           });
-          appendLog(`HOLD-DROP ANOMALY on ${btnLabel}: ${msg}`, 'fault');
+          appendLog(msg, 'fault');
         }
       }
 
-      // 2. Check for Double-Click / Switch Chatter (< 80ms)
       if (st.lastDownTime > 0) {
         const delta = now - st.lastDownTime;
         if (st.minDeltaMs === null || delta < st.minDeltaMs) {
@@ -225,21 +225,21 @@ export function createButtonsTest() {
         if (delta < DOUBLE_CLICK_THRESHOLD_MS && !faultTriggered) {
           st.doubleClicks += 1;
           sessionStats.doubleClicks += 1;
-          sessionStats.faultyButtons.add(btnLabel);
+          sessionStats.faultyButtons.add(btn);
           faultTriggered = true;
 
-          const msg = `${btnLabel} registered 2 clicks in ${delta.toFixed(1)}ms (< ${DOUBLE_CLICK_THRESHOLD_MS}ms threshold).`;
+          const msg = t('notifDoubleClickMsg', { btn: btnLabel, ms: delta.toFixed(1) });
           showNotification({
-            title: 'Double-Click Chatter Detected',
+            title: t('notifDoubleClickTitle'),
             message: msg,
             icon: 'alert'
           });
-          appendLog(`DOUBLE-CLICK FAULT on ${btnLabel}: ${msg}`, 'fault');
+          appendLog(msg, 'fault');
         } else if (!faultTriggered) {
-          appendLog(`${btnLabel} pressed (interval: ${delta.toFixed(0)}ms)`, 'normal');
+          appendLog(t('buttonsLogPressed', { btn: btnLabel, ms: delta.toFixed(0) }), 'normal');
         }
       } else {
-        appendLog(`${btnLabel} first press registered`, 'normal');
+        appendLog(t('buttonsLogFirstPress', { btn: btnLabel }), 'normal');
       }
 
       if (faultTriggered && zoneEl) {

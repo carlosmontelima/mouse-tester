@@ -1,6 +1,7 @@
 import { TestTimer } from '../timer.js';
 import { buildPollingReport, renderDiagnosticReport } from '../diagnostics.js';
 import { showNotification, setStartStopButtonContent } from '../notifications.js';
+import { t, onLanguageChange } from '../i18n.js';
 
 export function createPollingTest() {
   const zoneEl = document.getElementById('polling-test-zone');
@@ -62,14 +63,18 @@ export function createPollingTest() {
       state.finished = true;
       const totalFaults = state.dropAnomalies + state.jitterSpikes;
       showNotification({
-        title:
-          totalFaults > 0
-            ? 'Polling Test Complete — Variance Found'
-            : 'Polling Test Complete — Stable',
+        title: totalFaults > 0 ? t('notifPollingDoneWarnTitle') : t('notifPollingDoneOkTitle'),
         message:
           totalFaults > 0
-            ? `Detected ${state.dropAnomalies} polling drop(s) and ${state.jitterSpikes} spike(s). Check the hypothesis and fix guide below.`
-            : `Average ${state.avgHz} Hz (Peak ${state.peakHz} Hz) with ${state.consistencyPct}% stability.`,
+            ? t('notifPollingDoneWarnMsg', {
+                drops: state.dropAnomalies,
+                spikes: state.jitterSpikes
+              })
+            : t('notifPollingDoneOkMsg', {
+                avg: state.avgHz,
+                peak: state.peakHz,
+                stab: state.consistencyPct
+              }),
         icon: totalFaults > 0 ? 'alert' : 'check'
       });
       const report = buildPollingReport(state);
@@ -176,14 +181,23 @@ export function createPollingTest() {
     updateMetricsUI();
     drawGraph();
     if (logListEl) {
-      logListEl.innerHTML =
-        '<li class="anomaly-log-item">Click "Start Test" above, then move your mouse in continuous fast circles inside the arena.</li>';
+      logListEl.innerHTML = `<li class="anomaly-log-item">${t('pollingLogReady')}</li>`;
     }
     if (reportContainerEl) {
       reportContainerEl.classList.remove('visible');
       reportContainerEl.innerHTML = '';
     }
   }
+
+  onLanguageChange(() => {
+    setStartStopButtonContent(startBtn, timer.isRunning);
+    if (!timer.isRunning && state.samplesCount === 0 && logListEl) {
+      logListEl.innerHTML = `<li class="anomaly-log-item">${t('pollingLogReady')}</li>`;
+    }
+    if (state.finished && reportContainerEl && reportContainerEl.classList.contains('visible')) {
+      renderDiagnosticReport(reportContainerEl, buildPollingReport(state));
+    }
+  });
 
   durationPills.forEach((pill) => {
     pill.addEventListener('click', () => {
@@ -200,11 +214,11 @@ export function createPollingTest() {
     startBtn.addEventListener('click', () => {
       if (timer.isRunning) {
         timer.stop(true);
-        appendLog('Polling rate test stopped manually.', 'normal');
+        appendLog(t('pollingLogStopped'), 'normal');
       } else {
         resetAll();
         timer.start();
-        appendLog('Polling test started — move your mouse in continuous fast circles.', 'normal');
+        appendLog(t('pollingLogStarted'), 'normal');
       }
     });
   }
@@ -225,13 +239,13 @@ export function createPollingTest() {
           const dist = Math.hypot(clientX - state.lastX, clientY - state.lastY);
           if (dist > 210) {
             state.jitterSpikes += 1;
-            const msg = `Cursor jumped ${Math.round(dist)}px in ${dt.toFixed(2)}ms.`;
+            const msg = t('notifSpikeMsg', { px: Math.round(dist), ms: dt.toFixed(2) });
             showNotification({
-              title: 'Sensor Jitter Spike Detected',
+              title: t('notifSpikeTitle'),
               message: msg,
               icon: 'alert'
             });
-            appendLog(`SENSOR SPIKE: ${msg}`, 'fault');
+            appendLog(msg, 'fault');
           }
         }
       }
@@ -266,13 +280,13 @@ export function createPollingTest() {
             isDropAnomaly = true;
             state.dropAnomalies += 1;
             state.lastDropAlertTime = now;
-            const msg = `Polling rate plunged from ~${state.avgHz}Hz down to ${instantHz}Hz during movement.`;
+            const msg = t('notifDropMsg', { avg: state.avgHz, curr: instantHz });
             showNotification({
-              title: 'Polling Rate Drop Detected',
+              title: t('notifDropTitle'),
               message: msg,
               icon: 'alert'
             });
-            appendLog(`POLLING DROP: ${msg}`, 'fault');
+            appendLog(msg, 'fault');
             if (zoneEl) {
               zoneEl.classList.add('anomaly-flash');
               setTimeout(() => zoneEl.classList.remove('anomaly-flash'), 450);
@@ -301,7 +315,6 @@ export function createPollingTest() {
     };
 
     const handlePointerStream = (e) => {
-      // Strictly require Start Test button to be clicked first
       if (!timer.isRunning) return;
 
       const coalesced = typeof e.getCoalescedEvents === 'function' ? e.getCoalescedEvents() : null;
