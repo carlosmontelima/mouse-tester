@@ -1,0 +1,109 @@
+:root,
+[data-theme="dark"] {
+  /* Core Backgrounds */
+  --bg-primary: #07050c;
+  --bg-secondary: #0e0918;
+  --bg-elevated: #150e24;
+  --bg-radial-top: rgba(139, 92, 246, 0.16);
+  --bg-radial-center: rgba(168, 85, 247, 0.11);
+  --bg-grid-line: rgba(168, 85, 247, 0.045);
+
+  /* Glassmorphism Surfaces */
+  --glass-bg: rgba(20, 13, 36, 0.65);
+  --glass-bg-hover: rgba(30, 19, 54, 0.78);
+  --glass-bg-strong: rgba(16, 10, 30, 0.88);
+  --glass-border: rgba(192, 132, 252, 0.22);
+  --glass-border-strong: rgba(192, 132, 252, 0.48);
+  --glass-highlight: rgba(255, 255, 255, 0.07);
+  --glass-shadow: 0 20px 50px rgba(0, 0, 0, 0.65), 0 0 35px rgba(139, 92, 246, 0.12);
+
+  /* Purple Palette & Neon Bloom */
+  --purple-200: #e9d5ff;
+  --purple-300: #d8b4fe;
+  --purple-400: #c084fc;
+  --purple-500: #a855f7;
+  --purple-600: #9333ea;
+  --purple-700: #7e22ce;
+  --purple-800: #581c87;
+  --accent-pink: #e879f9;
+
+  /* Bloom & Backlight Shadows */
+  --bloom-sm: 0 0 12px rgba(168, 85, 247, 0.42);
+  --bloom-md: 0 0 22px rgba(168, 85, 247, 0.52), 0 0 45px rgba(147, 51, 234, 0.28);
+  --bloom-lg: 0 0 30px rgba(192, 132, 252, 0.68), 0 0 65px rgba(147, 51, 234, 0.42), 0 0 110px rgba(126, 34, 206, 0.26);
+  --btn-backlight: 0 0 18px rgba(168, 85, 247, 0.42), inset 0 1px 1px rgba(255, 255, 255, 0.22);
+  --btn-backlight-active: 0 0 28px rgba(192, 132, 252, 0.78), 0 0 55px rgba(168, 85, 247, 0.46), inset 0 1px 2px rgba(255, 255, 255, 0.35);
+
+  /* Typography Colors */
+  --text-primary: #f5f0ff;
+  --text-secondary: #b9a8d4;
+  --text-muted: #7e6d99;
+  --text-on-accent: #ffffff;
+
+  /* Stop Button Specific Red (Kept per user specification) */
+  --stop-btn-bg: linear-gradient(135deg, #e11d48, #9f1239);
+  --stop-btn-border: #fda4af;
+  --stop-btn-bloom: 0 0 24px rgba(244, 63, 94, 0.55);
+
+  /* Mouse Visualizer Colors */
+  --mouse-part-fill: rgba(24, 15, 42, 0.88);
+  --mouse-part-stroke: #c084fc;
+  --mouse-img-filter: drop-shadow(0 0 22px rgba(168, 85, 247, 0.45));
+
+  /* Layout & Transitions */
+  -- font-main: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+  --radius-pill: 9999px;
+  --transition-fast: 180ms cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-smooth: 350ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-theme="light"] {
+  /* Core Backgrounds */
+  --bg-primary: #f6f3ff;
+  --bg-secondary: #ede7fe;
+  --bg-elevated: #ffffff;
+  --bg-radial-top: rgba(147, 51, 234, 0.14);
+  --bg-radial-center: rgba(168, 85, 247, 0.1);
+  --bg-grid-line: rgba(126, 34, 206, 0.055);
+
+  /* Glassmorphism Surfaces */
+  --glass-bg: rgba(255, 255, 255, 0.75);
+  --glass-bg-hover: rgba(255, 255, 255, 0.9);
+  --glass-bg-strong: rgba(250, 247, 255, 0.94);
+  --glass-border: rgba(147, 51, 234, 0.24);
+  --glass-border-strong: rgba(126, 34, 206, 0.52);
+  --glass-highlight: rgba(255, 255, 255, 0.85);
+  --glass-shadow: 0 18px 42px rgba(88, 28, 135, 0.12), 0 0 28px rgba(168, 85, 247, 0.12);
+
+  /* Purple Palette & Neon Bloom */
+  --purple-200: #6b21a8;
+  --purple-300: #9333ea;
+  --purple-400: #7e22ce;
+  --purple-500: #6b21a8;
+  --purple-600: #581c87;
+  --purple-700: #4c1d95;
+  --purple-800: #3b0764;
+  --accent-pink: #a21caf;
+
+  /* Bloom & Backlight Shadows */
+  --bloom-sm: 0 4px 14px rgba(147, 51, 234, 0.25);
+  --bloom-md: 0 6px 24px rgba(147, 51, 234, 0.32), 0 0 38px rgba(168, 85, 247, 0.2);
+  --bloom-lg: 0 8px 32px rgba(147, 51, 234, 0.42), 0 0 60px rgba(168, 85, 247, 0.28);
+  --btn-backlight: 0 4px 18px rgba(147, 51, 234, 0.26), inset 0 1px 2px rgba(255, 255, 255, 0.9);
+  --btn-backlight-active: 0 6px 28px rgba(147, 51, 234, 0.52), 0 0 42px rgba(168, 85, 247, 0.32), inset 0 1px 2px rgba(255, 255, 255, 0.5);
+
+  /* Typography Colors */
+  --text-primary: #1a0b2e;
+  --text-secondary: #4c356b;
+  --text-muted: #7a6499;
+  --text-on-accent: #ffffff;
+
+  /* Mouse Visualizer Colors */
+  --mouse-part-fill: rgba(235, 225, 255, 0.85);
+  --mouse-part-stroke: #7e22ce;
+  --mouse-img-filter: drop-shadow(0 8px 22px rgba(126, 34, 206, 0.32));
+}

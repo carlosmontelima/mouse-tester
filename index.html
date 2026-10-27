@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mouse Tester — Precision Hardware Diagnostic Suite</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+  <link rel="stylesheet" href="css/components.css" />
+</head>
+<body>
+
+  <!-- Top Header: Top-Left Animated Mouse Brand (Visible in App) + Top-Right Theme Button -->
+  <header class="top-header">
+    <a href="#welcome-screen" id="header-mouse-brand" class="header-mouse-brand" title="Return to Welcome Screen">
+      <div class="header-mouse-stage">
+        <img src="assets/mouse.png" alt="Mouse Tester Icon" class="header-mouse-img" />
+        <svg class="header-mouse-outline-svg" viewBox="0 0 512 512" aria-hidden="true">
+          <path class="header-contour-path" pathLength="1000" d="M 308.4 131.4 L 317.0 131.0 L 340.9 133.1 L 366.6 139.4 L 378.7 144.3 L 396.6 154.4 L 405.7 161.3 L 419.7 175.3 L 433.0 194.0 L 441.6 211.4 L 447.9 230.1 L 447.9 238.9 L 445.3 247.3 L 438.2 258.2 L 432.7 263.7 L 418.6 274.6 L 405.6 282.6 L 339.4 318.4 L 301.6 342.6 L 272.0 360.0 L 247.6 371.6 L 223.9 378.9 L 217.0 380.0 L 191.0 380.0 L 160.4 372.6 L 139.7 364.3 L 120.4 354.6 L 104.8 344.2 L 92.2 333.8 L 79.8 320.2 L 76.4 315.6 L 76.8 314.6 L 86.8 324.2 L 100.4 333.6 L 118.4 342.6 L 142.4 351.6 L 162.1 356.9 L 178.0 359.0 L 191.9 358.9 L 202.6 356.6 L 205.7 354.7 L 207.6 352.6 L 209.4 345.4 L 211.8 340.8 L 278.3 269.3 L 311.7 235.7 L 315.6 229.6 L 317.0 224.0 L 314.6 215.4 L 304.7 204.3 L 287.2 189.8 L 267.7 177.3 L 250.6 169.4 L 229.9 163.1 L 216.0 161.0 L 194.6 162.2 L 214.4 152.4 L 246.1 141.1 L 277.1 134.1 Z" />
+          <path class="header-contour-path" pathLength="1000" d="M 246.4 171.4 L 252.6 173.4 L 268.6 181.4 L 282.6 190.4 L 297.2 201.8 L 310.6 215.4 L 312.9 220.1 L 312.3 227.3 L 309.7 231.7 L 283.3 258.3 L 212.8 333.8 L 205.4 343.4 L 203.2 351.2 L 191.0 355.0 L 174.0 355.0 L 162.0 353.0 L 147.4 349.6 L 129.4 343.6 L 108.4 334.6 L 103.1 330.9 L 102.4 323.4 L 136.8 279.8 L 139.9 279.1 L 148.0 281.0 L 153.6 279.6 L 163.7 270.7 L 200.6 227.6 L 200.9 221.1 L 195.8 215.2 L 195.8 213.8 L 215.8 194.8 Z" />
+          <path class="header-contour-path" pathLength="1000" d="M 199.4 163.4 L 214.0 163.0 L 221.9 164.1 L 235.6 167.4 L 241.6 169.4 L 242.3 170.6 L 218.8 188.8 L 193.2 212.2 L 189.0 213.0 L 184.1 212.2 L 178.7 213.7 L 172.6 217.6 L 163.4 221.4 L 156.8 225.8 L 149.3 233.3 L 144.0 241.0 L 136.6 257.6 L 132.4 262.4 L 129.4 268.4 L 129.7 271.3 L 134.2 276.8 L 134.2 278.2 L 101.6 319.6 L 99.1 324.1 L 99.8 328.8 L 98.4 329.6 L 75.5 313.5 L 75.6 311.4 L 68.0 301.0 L 64.1 289.9 L 64.0 280.0 L 67.4 269.4 L 71.4 262.4 L 90.3 240.3 L 119.8 213.8 L 145.8 192.8 L 169.4 176.4 L 185.0 167.0 Z" />
+          <path class="header-contour-path" pathLength="1000" d="M 178.4 218.4 L 189.6 219.4 L 197.6 223.4 L 198.8 225.9 L 182.7 229.7 L 175.8 233.8 L 168.3 240.3 L 162.4 248.4 L 157.7 257.7 L 153.0 274.0 L 152.5 277.5 L 149.0 279.0 L 141.1 277.9 L 137.4 275.6 L 138.1 262.1 L 142.7 247.7 L 149.4 236.4 L 154.8 229.8 L 168.7 220.7 Z" />
+          <path class="header-contour-path" pathLength="1000" d="M 326.4 253.4 L 328.7 254.3 L 333.6 260.4 L 335.8 264.1 L 335.6 266.6 L 315.8 282.8 L 298.2 299.2 L 292.1 299.9 L 289.7 297.3 L 289.1 290.1 L 291.4 285.4 L 308.3 268.3 Z" />
+          <path class="header-contour-path" pathLength="1000" d="M 372.4 225.4 L 376.6 225.4 L 379.9 229.1 L 380.9 235.9 L 378.2 242.2 L 345.4 259.6 L 336.8 248.2 L 336.8 245.8 L 357.4 232.4 Z" />
+        </svg>
+      </div>
+      <svg class="header-title-svg" viewBox="0 0 680 96" aria-hidden="true">
+        <text x="50%" y="70" text-anchor="middle" pathLength="900" class="header-title-text">Mouse Tester</text>
+      </svg>
+    </a>
+
+    <div class="nav-actions">
+      <button type="button" id="theme-toggle-btn" class="btn-glass" aria-label="Toggle Dark or Light Theme">
+        <svg id="theme-toggle-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"></svg>
+        <span id="theme-toggle-label">Light Mode</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Right-Side Single Notification Host (Outside Main App Box, Sliding From Above) -->
+  <div id="notification-host" class="notification-host"></div>
+
+  <!-- =========================================================
+       WELCOME HERO SCREEN (100vh)
+       ========================================================= -->
+  <section id="welcome-screen" class="welcome-screen">
+    <canvas id="welcome-particles"></canvas>
+    <div class="welcome-ambient-orb"></div>
+
+    <div class="welcome-content">
+      <div id="hero-mouse-stage" class="hero-mouse-stage">
+        <img src="assets/mouse.png" alt="Mouse Tester Icon" class="hero-mouse-img" />
+
+        <svg class="hero-mouse-outline-svg" viewBox="0 0 512 512" aria-hidden="true">
+          <path class="mouse-contour-path" pathLength="1000" d="M 308.4 131.4 L 317.0 131.0 L 340.9 133.1 L 366.6 139.4 L 378.7 144.3 L 396.6 154.4 L 405.7 161.3 L 419.7 175.3 L 433.0 194.0 L 441.6 211.4 L 447.9 230.1 L 447.9 238.9 L 445.3 247.3 L 438.2 258.2 L 432.7 263.7 L 418.6 274.6 L 405.6 282.6 L 339.4 318.4 L 301.6 342.6 L 272.0 360.0 L 247.6 371.6 L 223.9 378.9 L 217.0 380.0 L 191.0 380.0 L 160.4 372.6 L 139.7 364.3 L 120.4 354.6 L 104.8 344.2 L 92.2 333.8 L 79.8 320.2 L 76.4 315.6 L 76.8 314.6 L 86.8 324.2 L 100.4 333.6 L 118.4 342.6 L 142.4 351.6 L 162.1 356.9 L 178.0 359.0 L 191.9 358.9 L 202.6 356.6 L 205.7 354.7 L 207.6 352.6 L 209.4 345.4 L 211.8 340.8 L 278.3 269.3 L 311.7 235.7 L 315.6 229.6 L 317.0 224.0 L 314.6 215.4 L 304.7 204.3 L 287.2 189.8 L 267.7 177.3 L 250.6 169.4 L 229.9 163.1 L 216.0 161.0 L 194.6 162.2 L 214.4 152.4 L 246.1 141.1 L 277.1 134.1 Z" />
+          <path class="mouse-contour-path delay-1" pathLength="1000" d="M 246.4 171.4 L 252.6 173.4 L 268.6 181.4 L 282.6 190.4 L 297.2 201.8 L 310.6 215.4 L 312.9 220.1 L 312.3 227.3 L 309.7 231.7 L 283.3 258.3 L 212.8 333.8 L 205.4 343.4 L 203.2 351.2 L 191.0 355.0 L 174.0 355.0 L 162.0 353.0 L 147.4 349.6 L 129.4 343.6 L 108.4 334.6 L 103.1 330.9 L 102.4 323.4 L 136.8 279.8 L 139.9 279.1 L 148.0 281.0 L 153.6 279.6 L 163.7 270.7 L 200.6 227.6 L 200.9 221.1 L 195.8 215.2 L 195.8 213.8 L 215.8 194.8 Z" />
+          <path class="mouse-contour-path delay-1" pathLength="1000" d="M 199.4 163.4 L 214.0 163.0 L 221.9 164.1 L 235.6 167.4 L 241.6 169.4 L 242.3 170.6 L 218.8 188.8 L 193.2 212.2 L 189.0 213.0 L 184.1 212.2 L 178.7 213.7 L 172.6 217.6 L 163.4 221.4 L 156.8 225.8 L 149.3 233.3 L 144.0 241.0 L 136.6 257.6 L 132.4 262.4 L 129.4 268.4 L 129.7 271.3 L 134.2 276.8 L 134.2 278.2 L 101.6 319.6 L 99.1 324.1 L 99.8 328.8 L 98.4 329.6 L 75.5 313.5 L 75.6 311.4 L 68.0 301.0 L 64.1 289.9 L 64.0 280.0 L 67.4 269.4 L 71.4 262.4 L 90.3 240.3 L 119.8 213.8 L 145.8 192.8 L 169.4 176.4 L 185.0 167.0 Z" />
+          <path class="mouse-contour-path delay-2" pathLength="1000" d="M 178.4 218.4 L 189.6 219.4 L 197.6 223.4 L 198.8 225.9 L 182.7 229.7 L 175.8 233.8 L 168.3 240.3 L 162.4 248.4 L 157.7 257.7 L 153.0 274.0 L 152.5 277.5 L 149.0 279.0 L 141.1 277.9 L 137.4 275.6 L 138.1 262.1 L 142.7 247.7 L 149.4 236.4 L 154.8 229.8 L 168.7 220.7 Z" />
+          <path class="mouse-contour-path delay-2" pathLength="1000" d="M 190.4 233.4 L 192.4 233.5 L 192.2 235.2 L 160.7 271.7 L 159.4 272.3 L 159.2 271.1 L 162.4 260.4 L 171.8 244.8 L 179.4 238.4 Z" />
+          <path class="mouse-contour-path delay-3" pathLength="1000" d="M 326.4 253.4 L 328.7 254.3 L 333.6 260.4 L 335.8 264.1 L 335.6 266.6 L 315.8 282.8 L 298.2 299.2 L 292.1 299.9 L 289.7 297.3 L 289.1 290.1 L 291.4 285.4 L 308.3 268.3 Z" />
+          <path class="mouse-contour-path delay-3" pathLength="1000" d="M 372.4 225.4 L 376.6 225.4 L 379.9 229.1 L 380.9 235.9 L 378.2 242.2 L 345.4 259.6 L 336.8 248.2 L 336.8 245.8 L 357.4 232.4 Z" />
+        </svg>
+      </div>
+
+      <div class="hero-title-wrap">
+        <svg class="hero-title-svg" viewBox="0 0 680 96" role="heading" aria-level="1" aria-label="Mouse Tester">
+          <text x="50%" y="70" text-anchor="middle" pathLength="900" class="hero-title-text">Mouse Tester</text>
+        </svg>
+      </div>
+
+      <p class="hero-subtitle">
+        Complete hardware diagnostics for mouse switches, side buttons, rotary scroll encoders, and high-frequency polling sensors — with real-time anomaly alerts and repair guides.
+      </p>
+
+      <button type="button" id="scroll-to-arena-btn" class="scroll-cta-btn">
+        <span>Scroll Down or Press Down Arrow to Begin</span>
+        <span class="scroll-arrow-pill">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <polyline points="19 12 12 19 5 12"></polyline>
+          </svg>
+        </span>
+      </button>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       MAIN TESTING ARENA (CENTERED & SEPARATED BY TABS)
+       ========================================================= -->
+  <main id="main-arena" class="main-arena">
+    <div class="arena-header">
+      <div class="arena-badge">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+        </svg>
+        <span>Isolated Diagnostic Suite</span>
+      </div>
+      <h2 class="arena-title">Hardware Diagnostic Arena</h2>
+      <p class="arena-desc">
+        Each diagnostic runs strictly isolated for accurate timing. Select a test tab, choose your duration (30s–120s), and click Start Test.
+      </p>
+    </div>
+
+    <!-- Centered Tab Navigation Buttons -->
+    <nav class="test-tabs-nav" role="tablist" aria-label="Mouse Diagnostic Tests">
+      <button type="button" class="tab-btn active" role="tab" aria-selected="true" data-tab="buttons">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="5" y="2" width="14" height="20" rx="7"></rect>
+          <line x1="12" y1="2" x2="12" y2="10"></line>
+          <line x1="5" y1="10" x2="19" y2="10"></line>
+        </svg>
+        <span>1. Mouse Buttons &amp; Side Switches</span>
+      </button>
+
+      <button type="button" class="tab-btn" role="tab" aria-selected="false" data-tab="scroll">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="7 8 12 3 17 8"></polyline>
+          <polyline points="7 16 12 21 17 16"></polyline>
+          <line x1="12" y1="3" x2="12" y2="21"></line>
+        </svg>
+        <span>2. Scroll Wheel &amp; Reverse Detector</span>
+      </button>
+
+      <button type="button" class="tab-btn" role="tab" aria-selected="false" data-tab="polling">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+        </svg>
+        <span>3. Polling Rate (Hz) &amp; Sensor</span>
+      </button>
+    </nav>
+
+    <!-- Centered Glass Stage -->
+    <div class="test-stage-card">
+
+      <!-- =====================================================
+           TAB 1: MOUSE BUTTONS & SWITCHES TEST
+           ===================================================== -->
+      <div id="panel-buttons" class="test-panel active" role="tabpanel">
+        <div class="test-control-bar">
+          <div class="duration-selector-group">
+            <span class="control-label">Test Duration:</span>
+            <button type="button" class="duration-pill active" data-test="buttons" data-seconds="30">30s</button>
+            <button type="button" class="duration-pill" data-test="buttons" data-seconds="60">60s</button>
+            <button type="button" class="duration-pill" data-test="buttons" data-seconds="90">90s</button>
+            <button type="button" class="duration-pill" data-test="buttons" data-seconds="120">120s</button>
+          </div>
+
+          <div class="timer-execution-group">
+            <div class="timer-readout-box">
+              <span id="buttons-timer-dot" class="timer-status-dot"></span>
+              <span id="buttons-timer-text">00:30</span>
+            </div>
+            <button type="button" id="buttons-start-btn" class="btn-start-test">
+              <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="6 4 20 12 6 20 6 4"></polygon></svg>
+              <span>Start Test</span>
+            </button>
+            <button type="button" id="buttons-reset-btn" class="btn-glass">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="1 4 1 10 7 10"></polyline>
+                <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+              </svg>
+              <span>Reset</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="timer-progress-track">
+          <div id="buttons-progress-fill" class="timer-progress-fill"></div>
+        </div>
+
+        <div class="test-workspace-grid">
+          <div id="buttons-test-zone" class="interactive-test-zone">
+            <div class="zone-heading-row">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <circle cx="12" cy="12" r="6"></circle>
+                <circle cx="12" cy="12" r="2"></circle>
+              </svg>
+              <div class="zone-title">Click &amp; Hold Target Arena</div>
+            </div>
+            <p class="zone-subtitle">
+              Click "Start Test" above first. Then click Left (M1), Right (M2), Middle Wheel (M3), Side Back (M4), and Side Forward (M5) here to test for switch bounce or hold dropouts.
+            </p>
+          </div>
+
+          <div class="visualizer-card">
+            <span class="control-label">Live Switch Illumination</span>
+            <div class="visualizer-svg-wrap">
+              <svg class="interactive-mouse-svg" viewBox="0 0 512 512">
+                <path class="mouse-zone-part" d="M 308.4 131.4 L 317.0 131.0 L 340.9 133.1 L 366.6 139.4 L 378.7 144.3 L 396.6 154.4 L 405.7 161.3 L 419.7 175.3 L 433.0 194.0 L 441.6 211.4 L 447.9 230.1 L 447.9 238.9 L 445.3 247.3 L 438.2 258.2 L 432.7 263.7 L 418.6 274.6 L 405.6 282.6 L 339.4 318.4 L 301.6 342.6 L 272.0 360.0 L 247.6 371.6 L 223.9 378.9 L 217.0 380.0 L 191.0 380.0 L 160.4 372.6 L 139.7 364.3 L 120.4 354.6 L 104.8 344.2 L 92.2 333.8 L 79.8 320.2 L 76.4 315.6 L 76.8 314.6 L 86.8 324.2 L 100.4 333.6 L 118.4 342.6 L 142.4 351.6 L 162.1 356.9 L 178.0 359.0 L 191.9 358.9 L 202.6 356.6 L 205.7 354.7 L 207.6 352.6 L 209.4 345.4 L 211.8 340.8 L 278.3 269.3 L 311.7 235.7 L 315.6 229.6 L 317.0 224.0 L 314.6 215.4 L 304.7 204.3 L 287.2 189.8 L 267.7 177.3 L 250.6 169.4 L 229.9 163.1 L 216.0 161.0 L 194.6 162.2 L 214.4 152.4 L 246.1 141.1 L 277.1 134.1 Z" />
+                <path id="svg-btn-part-0" class="mouse-zone-part" d="M 246.4 171.4 L 252.6 173.4 L 268.6 181.4 L 282.6 190.4 L 297.2 201.8 L 310.6 215.4 L 312.9 220.1 L 312.3 227.3 L 309.7 231.7 L 283.3 258.3 L 212.8 333.8 L 205.4 343.4 L 203.2 351.2 L 191.0 355.0 L 174.0 355.0 L 162.0 353.0 L 147.4 349.6 L 129.4 343.6 L 108.4 334.6 L 103.1 330.9 L 102.4 323.4 L 136.8 279.8 L 139.9 279.1 L 148.0 281.0 L 153.6 279.6 L 163.7 270.7 L 200.6 227.6 L 200.9 221.1 L 195.8 215.2 L 195.8 213.8 L 215.8 194.8 Z" />
+                <path id="svg-btn-part-2" class="mouse-zone-part" d="M 199.4 163.4 L 214.0 163.0 L 221.9 164.1 L 235.6 167.4 L 241.6 169.4 L 242.3 170.6 L 218.8 188.8 L 193.2 212.2 L 189.0 213.0 L 184.1 212.2 L 178.7 213.7 L 172.6 217.6 L 163.4 221.4 L 156.8 225.8 L 149.3 233.3 L 144.0 241.0 L 136.6 257.6 L 132.4 262.4 L 129.4 268.4 L 129.7 271.3 L 134.2 276.8 L 134.2 278.2 L 101.6 319.6 L 99.1 324.1 L 99.8 328.8 L 98.4 329.6 L 75.5 313.5 L 75.6 311.4 L 68.0 301.0 L 64.1 289.9 L 64.0 280.0 L 67.4 269.4 L 71.4 262.4 L 90.3 240.3 L 119.8 213.8 L 145.8 192.8 L 169.4 176.4 L 185.0 167.0 Z" />
+                <path id="svg-btn-part-1" class="mouse-zone-part" d="M 178.4 218.4 L 189.6 219.4 L 197.6 223.4 L 198.8 225.9 L 182.7 229.7 L 175.8 233.8 L 168.3 240.3 L 162.4 248.4 L 157.7 257.7 L 153.0 274.0 L 152.5 277.5 L 149.0 279.0 L 141.1 277.9 L 137.4 275.6 L 138.1 262.1 L 142.7 247.7 L 149.4 236.4 L 154.8 229.8 L 168.7 220.7 Z" />
+                <path id="svg-btn-part-4" class="mouse-zone-part" d="M 326.4 253.4 L 328.7 254.3 L 333.6 260.4 L 335.8 264.1 L 335.6 266.6 L 315.8 282.8 L 298.2 299.2 L 292.1 299.9 L 289.7 297.3 L 289.1 290.1 L 291.4 285.4 L 308.3 268.3 Z" />
+                <path id="svg-btn-part-3" class="mouse-zone-part" d="M 372.4 225.4 L 376.6 225.4 L 379.9 229.1 L 380.9 235.9 L 378.2 242.2 L 345.4 259.6 L 336.8 248.2 L 336.8 245.8 L 357.4 232.4 Z" />
+              </svg>
+            </div>
+            <span class="metric-sub">Interactive Switch Zone Map</span>
+          </div>
+        </div>
+
+        <div class="metrics-grid-5">
+          <div id="btn-card-0" class="metric-box">
+            <div class="metric-label">Left (M1)</div>
+            <div id="btn-count-0" class="metric-value">0</div>
+            <div id="btn-sub-0" class="metric-sub">No delta yet</div>
+          </div>
+          <div id="btn-card-2" class="metric-box">
+            <div class="metric-label">Right (M2)</div>
+            <div id="btn-count-2" class="metric-value">0</div>
+            <div id="btn-sub-2" class="metric-sub">No delta yet</div>
+          </div>
+          <div id="btn-card-1" class="metric-box">
+            <div class="metric-label">Middle (M3)</div>
+            <div id="btn-count-1" class="metric-value">0</div>
+            <div id="btn-sub-1" class="metric-sub">No delta yet</div>
+          </div>
+          <div id="btn-card-3" class="metric-box">
+            <div class="metric-label">Side Back (M4)</div>
+            <div id="btn-count-3" class="metric-value">0</div>
+            <div id="btn-sub-3" class="metric-sub">No delta yet</div>
+          </div>
+          <div id="btn-card-4" class="metric-box">
+            <div class="metric-label">Side Fwd (M5)</div>
+            <div id="btn-count-4" class="metric-value">0</div>
+            <div id="btn-sub-4" class="metric-sub">No delta yet</div>
+          </div>
+        </div>
+
+        <div class="anomaly-log-box">
+          <div class="anomaly-log-header">
+            <span>Live Switch Telemetry Stream</span>
+            <span>Threshold: &lt; 80ms Double-Click | &lt; 45ms Hold-Drop</span>
+          </div>
+          <ul id="buttons-log-list" class="anomaly-log-list">
+            <li class="anomaly-log-item">Click "Start Test" above, then click inside the target box to test all 5 buttons.</li>
+          </ul>
+        </div>
+
+        <div id="buttons-diagnostic-report" class="diagnostic-report-card"></div>
+      </div>
+
+      <!-- =====================================================
+           TAB 2: SCROLL WHEEL & ENCODER TEST
+           ===================================================== -->
+      <div id="panel-scroll" class="test-panel" role="tabpanel">
+        <div class="test-control-bar">
+          <div class="duration-selector-group">
+            <span class="control-label">Test Duration:</span>
+            <button type="button" class="duration-pill active" data-test="scroll" data-seconds="30">30s</button>
+            <button type="button" class="duration-pill" data-test="scroll" data-seconds="60">60s</button>
+            <button type="button" class="duration-pill" data-test="scroll" data-seconds="90">90s</button>
+            <button type="button" class="duration-pill" data-test="scroll" data-seconds="120">120s</button>
+          </div>
+
+          <div class="timer-execution-group">
+            <div class="timer-readout-box">
+              <span id="scroll-timer-dot" class="timer-status-dot"></span>
+              <span id="scroll-timer-text">00:30</span>
+            </div>
+            <button type="button" id="scroll-start-btn" class="btn-start-test">
+              <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="6 4 20 12 6 20 6 4"></polygon></svg>
+              <span>Start Test</span>
+            </button>
+            <button type="button" id="scroll-reset-btn" class="btn-glass">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="1 4 1 10 7 10"></polyline>
+                <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+              </svg>
+              <span>Reset</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="timer-progress-track">
+          <div id="scroll-progress-fill" class="timer-progress-fill"></div>
+        </div>
+
+        <div class="test-workspace-grid">
+          <div id="scroll-test-zone" class="interactive-test-zone">
+            <div class="zone-heading-row">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="7 8 12 3 17 8"></polyline>
+                <polyline points="7 16 12 21 17 16"></polyline>
+                <line x1="12" y1="3" x2="12" y2="21"></line>
+              </svg>
+              <div class="zone-title">Scroll Wheel Encoder Arena</div>
+            </div>
+            <p class="zone-subtitle">
+              Click "Start Test" above, then place your cursor inside this box and scroll continuously Down and Up.
+            </p>
+            <div id="scroll-live-direction" class="direction-indicator-pill">
+              <span>Click "Start Test" to Begin</span>
+            </div>
+            <!-- Live Step Graphic Inside the Scrolling Area -->
+            <div class="arena-canvas-wrap">
+              <canvas id="scroll-canvas" class="arena-canvas"></canvas>
+            </div>
+          </div>
+
+          <div class="visualizer-card">
+            <span class="control-label">Rotary Encoder Visualizer</span>
+            <div class="visualizer-svg-wrap">
+              <svg class="interactive-mouse-svg" viewBox="0 0 512 512">
+                <path class="mouse-zone-part" d="M 308.4 131.4 L 317.0 131.0 L 340.9 133.1 L 366.6 139.4 L 378.7 144.3 L 396.6 154.4 L 405.7 161.3 L 419.7 175.3 L 433.0 194.0 L 441.6 211.4 L 447.9 230.1 L 447.9 238.9 L 445.3 247.3 L 438.2 258.2 L 432.7 263.7 L 418.6 274.6 L 405.6 282.6 L 339.4 318.4 L 301.6 342.6 L 272.0 360.0 L 247.6 371.6 L 223.9 378.9 L 217.0 380.0 L 191.0 380.0 L 160.4 372.6 L 139.7 364.3 L 120.4 354.6 L 104.8 344.2 L 92.2 333.8 L 79.8 320.2 L 76.4 315.6 L 76.8 314.6 L 86.8 324.2 L 100.4 333.6 L 118.4 342.6 L 142.4 351.6 L 162.1 356.9 L 178.0 359.0 L 191.9 358.9 L 202.6 356.6 L 205.7 354.7 L 207.6 352.6 L 209.4 345.4 L 211.8 340.8 L 278.3 269.3 L 311.7 235.7 L 315.6 229.6 L 317.0 224.0 L 314.6 215.4 L 304.7 204.3 L 287.2 189.8 L 267.7 177.3 L 250.6 169.4 L 229.9 163.1 L 216.0 161.0 L 194.6 162.2 L 214.4 152.4 L 246.1 141.1 L 277.1 134.1 Z" />
+                <path class="mouse-zone-part" d="M 246.4 171.4 L 252.6 173.4 L 268.6 181.4 L 282.6 190.4 L 297.2 201.8 L 310.6 215.4 L 312.9 220.1 L 312.3 227.3 L 309.7 231.7 L 283.3 258.3 L 212.8 333.8 L 205.4 343.4 L 203.2 351.2 L 191.0 355.0 L 174.0 355.0 L 162.0 353.0 L 147.4 349.6 L 129.4 343.6 L 108.4 334.6 L 103.1 330.9 L 102.4 323.4 L 136.8 279.8 L 139.9 279.1 L 148.0 281.0 L 153.6 279.6 L 163.7 270.7 L 200.6 227.6 L 200.9 221.1 L 195.8 215.2 L 195.8 213.8 L 215.8 194.8 Z" />
+                <path class="mouse-zone-part" d="M 199.4 163.4 L 214.0 163.0 L 221.9 164.1 L 235.6 167.4 L 241.6 169.4 L 242.3 170.6 L 218.8 188.8 L 193.2 212.2 L 189.0 213.0 L 184.1 212.2 L 178.7 213.7 L 172.6 217.6 L 163.4 221.4 L 156.8 225.8 L 149.3 233.3 L 144.0 241.0 L 136.6 257.6 L 132.4 262.4 L 129.4 268.4 L 129.7 271.3 L 134.2 276.8 L 134.2 278.2 L 101.6 319.6 L 99.1 324.1 L 99.8 328.8 L 98.4 329.6 L 75.5 313.5 L 75.6 311.4 L 68.0 301.0 L 64.1 289.9 L 64.0 280.0 L 67.4 269.4 L 71.4 262.4 L 90.3 240.3 L 119.8 213.8 L 145.8 192.8 L 169.4 176.4 L 185.0 167.0 Z" />
+                <path id="svg-scroll-wheel-part" class="mouse-zone-part" d="M 178.4 218.4 L 189.6 219.4 L 197.6 223.4 L 198.8 225.9 L 182.7 229.7 L 175.8 233.8 L 168.3 240.3 L 162.4 248.4 L 157.7 257.7 L 153.0 274.0 L 152.5 277.5 L 149.0 279.0 L 141.1 277.9 L 137.4 275.6 L 138.1 262.1 L 142.7 247.7 L 149.4 236.4 L 154.8 229.8 L 168.7 220.7 Z" />
+              </svg>
+            </div>
+            <span class="metric-sub">Detects Reverse Scroll Bounce Live</span>
+          </div>
+        </div>
+
+        <div class="metrics-grid-4">
+          <div class="metric-box">
+            <div class="metric-label">Scroll Up Steps</div>
+            <div id="scroll-up-count" class="metric-value">0</div>
+            <div class="metric-sub">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="19" x2="12" y2="5"></line>
+                <polyline points="5 12 12 5 19 12"></polyline>
+              </svg>
+              <span>Upward Ticks</span>
+            </div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-label">Scroll Down Steps</div>
+            <div id="scroll-down-count" class="metric-value">0</div>
+            <div class="metric-sub">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <polyline points="19 12 12 19 5 12"></polyline>
+              </svg>
+              <span>Downward Ticks</span>
+            </div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-label">Current Streak</div>
+            <div id="scroll-streak-val" class="metric-value">Idle</div>
+            <div class="metric-sub">Consecutive Direction</div>
+          </div>
+          <div id="scroll-reverse-card" class="metric-box">
+            <div class="metric-label">Reverse Scroll Jumps</div>
+            <div id="scroll-reverse-count" class="metric-value">0</div>
+            <div class="metric-sub">Opposite Bounce Faults</div>
+          </div>
+        </div>
+
+        <div class="anomaly-log-box">
+          <div class="anomaly-log-header">
+            <span>Live Rotary Encoder Telemetry</span>
+            <span>Detects Opposite-Direction Phase Bounce (&lt; 260ms)</span>
+          </div>
+          <ul id="scroll-log-list" class="anomaly-log-list">
+            <li class="anomaly-log-item">Click "Start Test" above, then roll the scroll wheel inside the target box.</li>
+          </ul>
+        </div>
+
+        <div id="scroll-diagnostic-report" class="diagnostic-report-card"></div>
+      </div>
+
+      <!-- =====================================================
+           TAB 3: POLLING RATE (HZ) & SENSOR TEST
+           ===================================================== -->
+      <div id="panel-polling" class="test-panel" role="tabpanel">
+        <div class="test-control-bar">
+          <div class="duration-selector-group">
+            <span class="control-label">Test Duration:</span>
+            <button type="button" class="duration-pill active" data-test="polling" data-seconds="30">30s</button>
+            <button type="button" class="duration-pill" data-test="polling" data-seconds="60">60s</button>
+            <button type="button" class="duration-pill" data-test="polling" data-seconds="90">90s</button>
+            <button type="button" class="duration-pill" data-test="polling" data-seconds="120">120s</button>
+          </div>
+
+          <div class="timer-execution-group">
+            <div class="timer-readout-box">
+              <span id="polling-timer-dot" class="timer-status-dot"></span>
+              <span id="polling-timer-text">00:30</span>
+            </div>
+            <button type="button" id="polling-start-btn" class="btn-start-test">
+              <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="6 4 20 12 6 20 6 4"></polygon></svg>
+              <span>Start Test</span>
+            </button>
+            <button type="button" id="polling-reset-btn" class="btn-glass">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="1 4 1 10 7 10"></polyline>
+                <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+              </svg>
+              <span>Reset</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="timer-progress-track">
+          <div id="polling-progress-fill" class="timer-progress-fill"></div>
+        </div>
+
+        <div id="polling-test-zone" class="interactive-test-zone" style="min-height: 220px;">
+          <div class="zone-heading-row">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+            </svg>
+            <div class="zone-title">High-Frequency Sensor &amp; Polling Arena</div>
+          </div>
+          <p class="zone-subtitle">
+            Click "Start Test" above, then move your cursor in rapid, continuous circular motions inside this arena.
+          </p>
+          <div class="arena-canvas-wrap">
+            <canvas id="polling-canvas" class="arena-canvas"></canvas>
+          </div>
+        </div>
+
+        <div class="metrics-grid-4">
+          <div class="metric-box">
+            <div class="metric-label">Live Polling Rate</div>
+            <div id="polling-current-hz" class="metric-value">0 Hz</div>
+            <div class="metric-sub">Instantaneous Rate</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-label">Peak Polling Rate</div>
+            <div id="polling-peak-hz" class="metric-value">0 Hz</div>
+            <div class="metric-sub">Maximum Recorded</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-label">Average Rate</div>
+            <div id="polling-avg-hz" class="metric-value">0 Hz</div>
+            <div class="metric-sub">Active Motion Mean</div>
+          </div>
+          <div id="polling-stability-card" class="metric-box">
+            <div class="metric-label">Polling Stability</div>
+            <div id="polling-stability-pct" class="metric-value">100%</div>
+            <div class="metric-sub">Packet Consistency</div>
+          </div>
+        </div>
+
+        <div class="anomaly-log-box">
+          <div class="anomaly-log-header">
+            <span>Live Sensor &amp; USB Report Telemetry</span>
+            <span>Raw Pointer Stream (Uncoalesced Events)</span>
+          </div>
+          <ul id="polling-log-list" class="anomaly-log-list">
+            <li class="anomaly-log-item">Click "Start Test" above, then move your mouse in continuous fast circles inside the arena.</li>
+          </ul>
+        </div>
+
+        <div id="polling-diagnostic-report" class="diagnostic-report-card"></div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- =========================================================
+       FOOTER WITH GITHUB ATTRIBUTION
+       ========================================================= -->
+  <footer class="site-footer">
+    <div class="footer-credit">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--purple-400);">
+        <rect x="5" y="2" width="14" height="20" rx="7"></rect>
+        <line x1="12" y1="2" x2="12" y2="10"></line>
+      </svg>
+      <span>Designed &amp; Created by <strong>Carlos Monte Lima</strong> — All Rights Reserved.</span>
+    </div>
+
+    <a
+      href="https://github.com/carlosmontelima"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="github-credit-link"
+    >
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
+      </svg>
+      <span>@carlosmontelima on GitHub</span>
+    </a>
+  </footer>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
